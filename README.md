@@ -70,7 +70,7 @@ git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
                 --w ${W}
   ```
   ```
-  python main.py --url ./example.txt --output ./output --suffix .png --h 360 --w 640-
+  python main.py --url ./example.txt --output ./output --suffix .png --h 360 --w 640
   ```
 - The dataset will be organized as:
   ```
