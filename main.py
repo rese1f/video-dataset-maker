@@ -2,7 +2,7 @@ import os
 import shutil
 import argparse
 from util import *
-
+import time
 
 def parse_args():
     parser = argparse.ArgumentParser(description='video dataset maker script')
@@ -26,14 +26,18 @@ if __name__ == '__main__':
         shutil.rmtree(args.output)
     os.mkdir(args.output)
     
+    # load url list
     with open(args.url) as f:
         url_list = f.readlines()
     f.close()
+    
+    start_time = time.time()
     
     for id, url in enumerate(url_list):
         path = os.path.join(args.output, str(id))
         os.mkdir(path)
         
+        # download video
         dl_cmd = 'yt-dlp -f bestvideo[height={}][ext=mp4]/best[ext=mp4]/best\
                   {}\
                   -o {}.mp4'.format(download_resolution(args.h),
@@ -42,6 +46,7 @@ if __name__ == '__main__':
                                     )
         os.system(dl_cmd)
 
+        # extract frame
         ex_cmd = 'ffmpeg -i {}.mp4\
                  -vf scale={}:{}\
                  {}/%04d{}'.format(path,
@@ -50,6 +55,9 @@ if __name__ == '__main__':
                                   path,
                                   args.suffix,
                                   )
-        os.system(ex_cmd)
-        
+        os.system(ex_cmd)     
         continue
+    
+    end_time = time.time()
+    
+    print('Done in {} secs'.format(end_time-start_time))
