@@ -10,18 +10,8 @@ Our goal is to build a fast pipeline to produce new datasets for deep learning p
     - [FFmpeg](#ffmpeg)
   - [INSTALLATION](#installation)
   - [GET STARTED](#get-started)
-  - [TODO](#todo)
+  - [YouTube-VOS Annotation Format](#youtube-vos-annotation-format)
 
-The project is organized as:
-```
-.
-├── LICENSE
-├── README.md
-├── example.txt
-├── main.py
-├── requirements.txt
-└── util.py
-```
 
 ## DENPENDENCY
 
@@ -35,7 +25,6 @@ Personally suggest [Conda](https://www.anaconda.com/). Please follow its guidanc
 [FFmpeg](https://www.ffmpeg.org/) is a complete, cross-platform solution to record, convert and stream audio and video.
 
 ## INSTALLATION
-
 We suggest creating a virtual environment. The python version doesn't matter.
 ```
 conda create -n name python=3.x
@@ -59,7 +48,6 @@ git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
 ```
 
 ## GET STARTED
-
 - Store the target url list in a .txt file as [example](example.txt).
 - Run the script `main.py` with arguments input.
   ```
@@ -70,7 +58,7 @@ git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
                 --w ${W}
   ```
   ```
-  python main.py --url ./example.txt --output ./output --suffix .png --h 360 --w 640
+  python main.py --url ./example.txt --output ./output --suffix .png --h 360 --w 640-
   ```
 - The dataset will be organized as:
   ```
@@ -93,6 +81,42 @@ git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
      └── 1.mp4
   ```
 
-## TODO
+## YouTube-VOS Annotation Format
+For [YouTube-VOS](https://youtube-vos.org/) dataset, this repo provide the tool to convert the frames and masks to the given format, which is
 
-Parallel command
+```
+train.zip
+    |- JPEGImages
+        |- <video_id>
+            |- <frame_id>.jpg
+            |- <frame_id>.jpg
+        |- <video_id>
+            |- <frame_id>.jpg
+            |- <frame_id>.jpg
+    |- Annotations
+        |- <video_id>
+            |- <frame_id>.png
+            |- <frame_id>.png
+        |- <video_id>
+            |- <frame_id>.png
+            |- <frame_id>.png
+
+meta.json
+    {
+        "videos": {
+            "<video_id>": {
+                "objects": {
+                    "<object_id>": {
+                        "category": "<category>", 
+                        "frames": [
+                            "<frame_id>", 
+                            "<frame_id>", 
+                        ]
+                    }
+                }
+            }
+        }
+    }
+# <object_id> is the same as the pixel values of object in annotated segmentation PNG files.
+# <frame_id> is not necessary to start from 0.
+```
