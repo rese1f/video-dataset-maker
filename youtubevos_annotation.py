@@ -6,8 +6,6 @@ def parse_args():
     parser = argparse.ArgumentParser(description='YouTubeVOS dataset annotation maker')
     parser.add_argument('--mask', default='', type=str,
                         help='mask folder path')
-    parser.add_argument('--img', default='', type=str,
-                        help='image folder path')
     parser.add_argument('--catagory-list', nargs='+', default=[], type=str,
                         help='catagory list of objects')
     parser.add_argument('--id', default='', type=str,
@@ -17,6 +15,7 @@ def parse_args():
                         help='existing json file path')
     parser.add_argument('--save', default='meta.json', type=str,
                         help='json file saving path')
+    
     args = parser.parse_args()
     
     return args
