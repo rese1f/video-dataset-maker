@@ -22,6 +22,7 @@ if __name__ == '__main__':
     print(args)
     
     img_list = os.listdir(args.mask)
+    img_list.reverse()
     
     for img_name in img_list:
         src = os.path.join(args.mask, img_name)
